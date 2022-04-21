@@ -36,8 +36,8 @@
   mashiro_option.site_name = "狐の小屋";
   mashiro_option.author_name = "狐の小屋";
   mashiro_option.site_url = "https://Mythe51.github.io";
-  mashiro_option.v_appId = "cV5llD8VTuFglJ5qfy4ELm5f-MdYXbMMI";
-  mashiro_option.v_appKey = "hWXBFqoP7cX8xNsVqJwmKivK";
+  mashiro_option.v_appId = "";
+  mashiro_option.v_appKey = "";
   mashiro_option.mathjax = "0";
   mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
   mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
@@ -409,46 +409,26 @@
         
       </section>
       
-<div id="vcomments"></div>
-<script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "cV5llD8VTuFglJ5qfy4ELm5f-MdYXbMMI",
-        appKey: "hWXBFqoP7cX8xNsVqJwmKivK",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
-</script>
 
 
 
     <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
     <div id="waline"></div>
-    <style>
-    #waline textarea {
-        box-sizing: border-box;
-        background: url("https://gitee.com/cungudafa/source/raw/master/img/gif/Sitich/Sitich2.gif") 100% 100% no-repeat;
-    }
-    </style>
     <script>
         Waline({
               el: '#waline',
-              serverURL: '',
+              serverURL: 'https://waline-test-e4243niq8-mythe51.vercel.app/',
               pageSize: '10',
               lang: 'zh-CN',
-              requiredFields: ['nick','mail'], //设置必填项
+              requiredFields: ['nick','mail'],
               placeholder: '祝开开心心！',
-              visitor: 'false',
+              visitor: 'true',
               emoji: [
                   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba',
                   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
                   'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo',
               ],
               avatar: 'mp',
-              dark: 'auto',
             });
     </script>
 
@@ -804,7 +784,7 @@ $(document).ready(function() {
 </style>
 <meting-js
 
-    id="2660651585"
+    id="2655303961"
 
     server="netease"
 
@@ -820,7 +800,7 @@ $(document).ready(function() {
 
     preload="auto"
 
-    volume="0.7"
+    volume="0.5"
 
     mutex="true"
 
@@ -838,3 +818,6 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/gh/wallleap/cdn/js/shehuizhuyi.js"></script>						<!-- �������ʽ -->
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>		<!-- ���½ǿ����� -->
