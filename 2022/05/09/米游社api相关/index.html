@@ -377,7 +377,7 @@
 </tbody></table>
 <p><img src="//tvax3.sinaimg.cn/large/006G54sDgy1h22cohkiz2j31bz0lf7wh.jpg" alt="Snipaste_2022-05-09_18-54-50"></p>
 <h3 id="动态密钥"><a href="#动态密钥" class="headerlink" title="动态密钥"></a>动态密钥</h3><p>动态密钥由3部分构成，最后一部分是一个MD5。MD5的输入由5个部分构成，按照如下格式进行组合：</p>
-<pre class="line-numbers language-text"><code class="language-text">data = f"salt={CN_DS_SALT}&t={t}&r={r}&b={b}&q={q}"
+<pre class="line-numbers language-text"><code class="language-text">data = f"salt=&#123;CN_DS_SALT&#125;&t=&#123;t&#125;&r=&#123;r&#125;&b=&#123;b&#125;&q=&#123;q&#125;"
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>参数说明：</p>
 <table>
@@ -409,9 +409,9 @@
 </tr>
 </tbody></table>
 <p>伪代码如下：</p>
-<pre class="line-numbers language-text"><code class="language-text">data = "salt={CN_DS_SALT}&t={t}&r={r}&b={b}&q={q}"
+<pre class="line-numbers language-text"><code class="language-text">data = "salt=&#123;CN_DS_SALT&#125;&t=&#123;t&#125;&r=&#123;r&#125;&b=&#123;b&#125;&q=&#123;q&#125;"
 md5data = md5(data)
-DS = "{t},{r},{h}"
+DS = "&#123;t&#125;,&#123;r&#125;,&#123;h&#125;"
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>给出两种实现方式：</p>
 <p>python（<a target="_blank" rel="noopener" href="https://github.com/heartalborada-del">@heartalborada</a>）</p>
@@ -424,9 +424,9 @@ DS = "{t},{r},{h}"
     t <span class="token operator">=</span> int<span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     r <span class="token operator">=</span> random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">100001</span><span class="token punctuation">,</span> <span class="token number">200000</span><span class="token punctuation">)</span>
     b <span class="token operator">=</span> json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>body<span class="token punctuation">)</span> <span class="token keyword">if</span> body <span class="token keyword">else</span> <span class="token string">""</span>
-    q <span class="token operator">=</span> <span class="token string">"&amp;"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>f<span class="token string">"{k}={v}"</span> <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token keyword">in</span> sorted<span class="token punctuation">(</span>query<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">if</span> query <span class="token keyword">else</span> <span class="token string">""</span>
-    h <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>md5<span class="token punctuation">(</span>f<span class="token string">"salt={CN_DS_SALT}&amp;t={t}&amp;r={r}&amp;b={b}&amp;q={q}"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">return</span> f<span class="token string">"{t},{r},{h}"</span>
+    q <span class="token operator">=</span> <span class="token string">"&amp;"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>f<span class="token string">"&amp;#123;k&amp;#125;=&amp;#123;v&amp;#125;"</span> <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token keyword">in</span> sorted<span class="token punctuation">(</span>query<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">if</span> query <span class="token keyword">else</span> <span class="token string">""</span>
+    h <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>md5<span class="token punctuation">(</span>f<span class="token string">"salt=&amp;#123;CN_DS_SALT&amp;#125;&amp;t=&amp;#123;t&amp;#125;&amp;r=&amp;#123;r&amp;#125;&amp;b=&amp;#123;b&amp;#125;&amp;q=&amp;#123;q&amp;#125;"</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> f<span class="token string">"&amp;#123;t&amp;#125;,&amp;#123;r&amp;#125;,&amp;#123;h&amp;#125;"</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>C#（@<a target="_blank" rel="noopener" href="https://github.com/DGP-Studio">DGP-Studio</a>）</p>
 <pre class="line-numbers language-c#"><code class="language-c#">using Snap.Data.Json;
@@ -435,32 +435,32 @@ using System;
 using System.Linq;
 
 public class DynamicSecretProvider2 : Md5Converter
-{
+&#123;
     private static readonly string APISalt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
 
     public static string Create(string queryUrl, object? postBody = null)
-    {
+    &#123;
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
         string b = postBody is null ? "" : Json.Stringify(postBody);
         string q = "";
         string[] urlParts = queryUrl.Split('?');
         if (urlParts.Length == 2)
-        {
+        &#123;
             string[] queryParams = urlParts[1].Split('&').OrderBy(x => x).ToArray();
             q = string.Join("&", queryParams);
-        }
-        string check = GetComputedMd5($"salt={APISalt}&t={t}&r={r}&b={b}&q={q}");
+        &#125;
+        string check = GetComputedMd5($"salt=&#123;APISalt&#125;&t=&#123;t&#125;&r=&#123;r&#125;&b=&#123;b&#125;&q=&#123;q&#125;");
 
-        return $"{t},{r},{check}";
-    }
+        return $"&#123;t&#125;,&#123;r&#125;,&#123;check&#125;";
+    &#125;
 
     private static readonly Random random = new();
     private static string GetRandomString()
-    {
+    &#123;
         return random.Next(100000, 200000).ToString();
-    }
-}
+    &#125;
+&#125;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="UID-查询玩家基本信息"><a href="#UID-查询玩家基本信息" class="headerlink" title="UID 查询玩家基本信息"></a>UID 查询玩家基本信息</h3><p>url：<a target="_blank" rel="noopener" href="https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index">https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index</a></p>
 <p>请求方式：GET</p>
