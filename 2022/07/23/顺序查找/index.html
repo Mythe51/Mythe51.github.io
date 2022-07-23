@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">折半查找 | 狐の小屋</title>
+  <title itemprop="name">顺序查找 | 狐の小屋</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -350,79 +350,84 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
           <header class="entry-header">
-            <h1 class="entry-title">折半查找</h1>
-            <p class="entry-census">&nbsp;·&nbsp;2022-7-22&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
+            <h1 class="entry-title">顺序查找</h1>
+            <p class="entry-census">&nbsp;·&nbsp;2022-7-23&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
 
             <hr>
           </header>
         
         <div class="entry-content">
-          <p>根据王道教材编写的折半查找的示例代码。</p>
+          <p>根据王道教材编写的顺序查找的代码。顺序查找的思路比较简洁，但是需要注意哨兵的使用方法。</p>
 <pre class="highlight"><code class="c"><span class="hljs-comment">/*
-	时间：2022年7月22日21:06:51
+	时间：2022年7月23日20:42:30
 	作者：Mythe
-	根据王道书上的代码，写的折半查找的示例代码。
+	根据王道书上的代码，写的顺序查找的示例。
+	在本例中注意理解哨兵的作用。
+	哨兵不能让程序运行更快，但是能简化思考的逻辑，减少if语句的使用。
 */</span>
 <span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 <span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;time.h&gt;</span></span>
 
-<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">List</span> &#123;</span>
-	<span class="hljs-keyword">int</span> * data;
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
+	<span class="hljs-keyword">int</span> * elem;
 	<span class="hljs-keyword">int</span> length;
-&#125;List, *SeqList;
+&#125;L, *SeqList;
 
-<span class="hljs-comment">// 将数据初始化为从0到1000</span>
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InitList</span><span class="hljs-params">(SeqList L)</span>
+<span class="hljs-comment">// 顺序查找</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">SeqSearch</span><span class="hljs-params">(SeqList L, <span class="hljs-keyword">int</span> key)</span>
 </span>&#123;
-	L-&gt;data = (<span class="hljs-keyword">int</span> *)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * <span class="hljs-number">1001</span>);
-	L-&gt;length = <span class="hljs-number">0</span>;
-
-	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">1000</span>; i++) &#123;
-		L-&gt;data[L-&gt;length] = i + <span class="hljs-number">1</span>;
-		L-&gt;length++;
+	<span class="hljs-keyword">int</span> i = L-&gt;length - <span class="hljs-number">1</span>;			<span class="hljs-comment">// 初始指针指向末尾</span>
+	
+	L-&gt;elem[<span class="hljs-number">0</span>] = key;				<span class="hljs-comment">// 0号位置放哨兵</span>
+	<span class="hljs-keyword">while</span> (L-&gt;elem[i] != key) &#123;		<span class="hljs-comment">// 即使待查找的表里面没有指定关键字，也必定会在0号位置找到指定关键字</span>
+		i--;						<span class="hljs-comment">// 从后往前依次找</span>
 	&#125;
-	<span class="hljs-keyword">return</span>;
+	<span class="hljs-keyword">return</span> i - <span class="hljs-number">1</span>;					<span class="hljs-comment">// 返回非-1的数表示查找成功，否则查找失败</span>
 &#125;
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">BinarySearch</span><span class="hljs-params">(SeqList L, <span class="hljs-keyword">int</span> key)</span>
+<span class="hljs-comment">// 填充数据</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InitList</span><span class="hljs-params">(SeqList L)</span>
+</span>&#123;
+	srand(time(<span class="hljs-literal">NULL</span>));
+	L-&gt;length = <span class="hljs-number">1</span>;
+	L-&gt;elem = (<span class="hljs-keyword">int</span> *)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * <span class="hljs-number">11</span>);
+	L-&gt;elem[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;								<span class="hljs-comment">// 第一个位置为无效数据</span>
+	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">10</span>; i++) &#123;
+		L-&gt;elem[L-&gt;length] = rand() % <span class="hljs-number">100</span>;
+		L-&gt;length++;
+	&#125;
+&#125;
+
+<span class="hljs-comment">// 导出数据</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PrintList</span><span class="hljs-params">(SeqList L)</span>
 </span>&#123;
 	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">int</span> low = <span class="hljs-number">0</span>, high = L-&gt;length - <span class="hljs-number">1</span>;
-	<span class="hljs-keyword">int</span> middle = <span class="hljs-number">0</span>;
-	<span class="hljs-keyword">while</span> (low &lt;= high) &#123;
-		middle = (low + high) / <span class="hljs-number">2</span>;		<span class="hljs-comment">// 计算middle的值为两者中心</span>
-		<span class="hljs-keyword">int</span> val = L-&gt;data[middle];
-		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"第%2d次比较，low=%3d，high=%3d，middle=%3d，数值：%3d，结果："</span>, i++, low, high, middle, L-&gt;data[middle]);
-		<span class="hljs-keyword">if</span> (val &lt; key) &#123;
-			low = middle + <span class="hljs-number">1</span>;			<span class="hljs-comment">// 如果给定的值比当前中心位置大，则让low指针指向middle的下一个位置</span>
-		&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (val &gt; key) &#123;
-			high = middle - <span class="hljs-number">1</span>;			<span class="hljs-comment">// 如果给定的值比当前中心位置小，则让high指针指向middle的上一个位置</span>
-		&#125; <span class="hljs-keyword">else</span> &#123;
-			<span class="hljs-built_in">printf</span>(<span class="hljs-string">"成功。\n"</span>);
-			<span class="hljs-keyword">return</span> middle;
-		&#125;
-		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"失败。\n"</span>);
+	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">1</span>; i&lt;L-&gt;length; i++) &#123;
+		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d "</span>, L-&gt;elem[i]);
 	&#125;
-	<span class="hljs-comment">// 当low的值大于high的值时，while循环退出，此时说明没有查找到目标的值，返回-1。</span>
-	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"\n"</span>);
 &#125;
 
 <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
 </span>&#123;
-	<span class="hljs-keyword">int</span> key;
-	SeqList L = (SeqList)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(List));
-	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"----- 折半查找演示程序 ------\n"</span>);
-	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"顺序表存放1-1000之间的整数，请输入你要查找的数："</span>);
+	<span class="hljs-keyword">int</span> key = <span class="hljs-number">0</span>;
+    SeqList L = (SeqList)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(SeqList));
 	InitList(L);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"------ 顺序查找演示程序 ------\n待查找数组："</span>);
+	PrintList(L);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"输入要查找的关键字："</span>);
 	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;key);
-	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"index = %d\n"</span>, BinarySearch(L, key));
-	
-	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"您查找的关键字所在的数组下标为%d\n若数组下标为-1则查找失败。\n"</span>, SeqSearch(L, key));
+
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;
 </code></pre>
 <p>运行截图：</p>
-<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4g11s36r7j30h4057tdl.jpg" alt="image.png" /></p>
+<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4h5cti3o4j30bp03rwg7.jpg" alt="image.png" /></p>
+<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4h5cti3o4j30bp03rwg7.jpg" alt="image-20220723204611322" /></p>
 
         </div>
         <!-- .entry-content -->
@@ -451,28 +456,11 @@
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2022/07/23/%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                顺序查找</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2022/05/09/%E7%B1%B3%E6%B8%B8%E7%A4%BEapi%E7%9B%B8%E5%85%B3/" rel="next">
+            <a href="/2022/07/22/%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
               </div>
@@ -480,7 +468,7 @@
               Next Post</span>
               <div class="info">
                 <h3>
-                米游社api相关</h3>
+                折半查找</h3>
                 <hr>
               </div>
             </a>
