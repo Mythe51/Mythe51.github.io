@@ -358,71 +358,71 @@
         
         <div class="entry-content">
           <p>根据王道教材编写的折半查找的示例代码。</p>
-<pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*
-    时间：2022年7月22日21:06:51
-    作者：Mythe
-    根据王道书上的代码，写的折半查找的示例代码。
+<pre class="highlight"><code class="c"><span class="hljs-comment">/*
+	时间：2022年7月22日21:06:51
+	作者：Mythe
+	根据王道书上的代码，写的折半查找的示例代码。
 */</span>
-<span class="token macro property"># <span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property"># <span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+<span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
 
-<span class="token keyword">typedef</span> <span class="token keyword">struct</span> List <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> <span class="token operator">*</span> data<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> length<span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>List<span class="token punctuation">,</span> <span class="token operator">*</span>SeqList<span class="token punctuation">;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">List</span> &#123;</span>
+	<span class="hljs-keyword">int</span> * data;
+	<span class="hljs-keyword">int</span> length;
+&#125;List, *SeqList;
 
-<span class="token comment" spellcheck="true">// 将数据初始化为从0到1000</span>
-<span class="token keyword">void</span> <span class="token function">InitList</span><span class="token punctuation">(</span>SeqList L<span class="token punctuation">)</span>
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    L<span class="token operator">-></span>data <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1001</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    L<span class="token operator">-></span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="hljs-comment">// 将数据初始化为从0到1000</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InitList</span><span class="hljs-params">(SeqList L)</span>
+</span>&#123;
+	L-&gt;data = (<span class="hljs-keyword">int</span> *)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * <span class="hljs-number">1001</span>);
+	L-&gt;length = <span class="hljs-number">0</span>;
 
-    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        L<span class="token operator">-></span>data<span class="token punctuation">[</span>L<span class="token operator">-></span>length<span class="token punctuation">]</span> <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        L<span class="token operator">-></span>length<span class="token operator">++</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">1000</span>; i++) &#123;
+		L-&gt;data[L-&gt;length] = i + <span class="hljs-number">1</span>;
+		L-&gt;length++;
+	&#125;
+	<span class="hljs-keyword">return</span>;
+&#125;
 
-<span class="token keyword">int</span> <span class="token function">BinarySearch</span><span class="token punctuation">(</span>SeqList L<span class="token punctuation">,</span> <span class="token keyword">int</span> key<span class="token punctuation">)</span>
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> low <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> high <span class="token operator">=</span> L<span class="token operator">-></span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> middle <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>low <span class="token operator">&lt;=</span> high<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-        middle <span class="token operator">=</span> <span class="token punctuation">(</span>low <span class="token operator">+</span> high<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">// 计算middle的值为两者中心</span>
-        <span class="token keyword">int</span> val <span class="token operator">=</span> L<span class="token operator">-></span>data<span class="token punctuation">[</span>middle<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"第%2d次比较，low=%3d，high=%3d，middle=%3d，数值：%3d，结果："</span><span class="token punctuation">,</span> i<span class="token operator">++</span><span class="token punctuation">,</span> low<span class="token punctuation">,</span> high<span class="token punctuation">,</span> middle<span class="token punctuation">,</span> L<span class="token operator">-></span>data<span class="token punctuation">[</span>middle<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>val <span class="token operator">&lt;</span> key<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            low <span class="token operator">=</span> middle <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">// 如果给定的值比当前中心位置大，则让low指针指向middle的下一个位置</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>val <span class="token operator">></span> key<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            high <span class="token operator">=</span> middle <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>            <span class="token comment" spellcheck="true">// 如果给定的值比当前中心位置小，则让high指针指向middle的上一个位置</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token keyword">else</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"成功。\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">return</span> middle<span class="token punctuation">;</span>
-        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"失败。\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 当low的值大于high的值时，while循环退出，此时说明没有查找到目标的值，返回-1。</span>
-    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">BinarySearch</span><span class="hljs-params">(SeqList L, <span class="hljs-keyword">int</span> key)</span>
+</span>&#123;
+	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">int</span> low = <span class="hljs-number">0</span>, high = L-&gt;length - <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">int</span> middle = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">while</span> (low &lt;= high) &#123;
+		middle = (low + high) / <span class="hljs-number">2</span>;		<span class="hljs-comment">// 计算middle的值为两者中心</span>
+		<span class="hljs-keyword">int</span> val = L-&gt;data[middle];
+		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"第%2d次比较，low=%3d，high=%3d，middle=%3d，数值：%3d，结果："</span>, i++, low, high, middle, L-&gt;data[middle]);
+		<span class="hljs-keyword">if</span> (val &lt; key) &#123;
+			low = middle + <span class="hljs-number">1</span>;			<span class="hljs-comment">// 如果给定的值比当前中心位置大，则让low指针指向middle的下一个位置</span>
+		&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (val &gt; key) &#123;
+			high = middle - <span class="hljs-number">1</span>;			<span class="hljs-comment">// 如果给定的值比当前中心位置小，则让high指针指向middle的上一个位置</span>
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			<span class="hljs-built_in">printf</span>(<span class="hljs-string">"成功。\n"</span>);
+			<span class="hljs-keyword">return</span> middle;
+		&#125;
+		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"失败。\n"</span>);
+	&#125;
+	<span class="hljs-comment">// 当low的值大于high的值时，while循环退出，此时说明没有查找到目标的值，返回-1。</span>
+	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+&#125;
 
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
-<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> key<span class="token punctuation">;</span>
-    SeqList L <span class="token operator">=</span> <span class="token punctuation">(</span>SeqList<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>List<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"----- 折半查找演示程序 ------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"顺序表存放1-1000之间的整数，请输入你要查找的数："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">InitList</span><span class="token punctuation">(</span>L<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"index = %d\n"</span><span class="token punctuation">,</span> <span class="token function">BinarySearch</span><span class="token punctuation">(</span>L<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>&#123;
+	<span class="hljs-keyword">int</span> key;
+	SeqList L = (SeqList)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(List));
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"----- 折半查找演示程序 ------\n"</span>);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"顺序表存放1-1000之间的整数，请输入你要查找的数："</span>);
+	InitList(L);
+	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;key);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"index = %d\n"</span>, BinarySearch(L, key));
+	
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
 <p>运行截图：</p>
-<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4g11s36r7j30h4057tdl.jpg" alt="image.png"></p>
+<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4g11s36r7j30h4057tdl.jpg" alt="image.png" /></p>
 
         </div>
         <!-- .entry-content -->
