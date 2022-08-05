@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Tag: 考研408 | 狐の小屋</title>
+  <title itemprop="name">构建一棵平衡二叉树 | 狐の小屋</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -338,182 +338,453 @@
   </div>
 </header>
 
-      <div class="blank" style="padding-top: 75px;">
-</div>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
 <div id="content" class="site-content">
-  <div id="main">
-    <header class="page-header">
-      <h1 class="cat-title">
-      归档</h1>
-      <span class="cat-des">
-        <p>
-        Archives</p>
-      </span>
-    </header>
-    <div id="main-part">
-      <article class="art">
-        <div class="art-main">
-          <div class="art-content">
-            <div id="archives">
-              <p style="text-align:right;">
-                [<span id="al_expand_collapse" style="cursor: s-resize;">
-                全部展开/收缩</span>
-              ]</p>
-              
-              
-              
-              
-              
-                
-                <h3 class="al_year">2022年</h3>
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      08月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2022/08/04/%E6%9E%84%E5%BB%BA%E4%B8%80%E6%A3%B5%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/">
-                          <span style="color:#0bf;">
-                          04日22:14:02</span>
-                          构建一棵平衡二叉树
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      07月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2022/07/27/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%A2%AB%E9%AA%97%E7%BB%8F%E5%8E%86/">
-                          <span style="color:#0bf;">
-                          27日15:32:11</span>
-                          记一次被骗经历
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2022/07/23/%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE/">
-                          <span style="color:#0bf;">
-                          23日20:42:11</span>
-                          顺序查找
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2022/07/22/%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE/">
-                          <span style="color:#0bf;">
-                          22日21:16:37</span>
-                          折半查找
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      05月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2022/05/09/%E7%B1%B3%E6%B8%B8%E7%A4%BEapi%E7%9B%B8%E5%85%B3/">
-                          <span style="color:#0bf;">
-                          09日19:00:00</span>
-                          米游社api相关
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
-              
-              
-              
-              
-                
-                <ul class="al_mon_list">
-                  <li class="al_li">
-                    <span class="al_mon" style="cursor: s-resize;">
-                      04月(<span id="post-num">
-                      3</span>
-                    篇文章)</span>
-                    <ul class="al_post_list" style="">
-              
-                      <li>
-                        <a href="/2022/04/21/abccc/">
-                          <span style="color:#0bf;">
-                          21日15:25:36</span>
-                          abccc
-                        </a>
-                      </li>
-                      
-              
-              
-              
-              
-              
-                      <li>
-                        <a href="/2022/04/21/hello-world/">
-                          <span style="color:#0bf;">
-                          21日12:50:44</span>
-                          Hello World
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li>
-                </ul>
-              
-              
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+          <header class="entry-header">
+            <h1 class="entry-title">构建一棵平衡二叉树</h1>
+            <p class="entry-census">&nbsp;·&nbsp;2022-8-4&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
+
+            <hr>
+          </header>
+        
+        <div class="entry-content">
+          <p>本篇从代码和图形两部分，深层次理解平衡二叉树的构造。</p>
+<h2 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> 基本概念</h2>
+<p>首先给出二叉树节点的定义，以下均使用该处定义的节点类型：</p>
+<pre class="highlight"><code class="c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> &#123;</span>
+	<span class="hljs-keyword">int</span> data;					<span class="hljs-comment">// 数据域</span>
+	<span class="hljs-keyword">int</span> <span class="hljs-built_in">height</span>;					<span class="hljs-comment">// 以该节点为根的树的高度</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">parent</span>;</span>	 <span class="hljs-comment">// 父节点指针</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">lchild</span>;</span>	 <span class="hljs-comment">// 左孩子指针</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">rchild</span>;</span>	 <span class="hljs-comment">// 右孩子指针</span>
+&#125;Node, *AVLNode;
+</code></pre>
+<p>平衡二叉树是一种特殊的二叉排序树。既然是二叉排序树，就必须满足二叉排序树的性质：</p>
+<blockquote>
+<p>所有左子树节点的值 &lt; 根节点的值 &lt; 所有右子树节点的值</p>
+</blockquote>
+<p>对于一棵二叉排序树，我们在插入的时候只需要简单的寻找其插入位置，然后将其插入即可。代码表示如下：</p>
+<pre class="highlight"><code class="c">AVLNode pt = AVLTree;
+<span class="hljs-keyword">while</span>(pt != <span class="hljs-literal">NULL</span>) &#123;
+    <span class="hljs-keyword">if</span> (pt-&gt;data &gt; val) &#123;
+        pt = pt-&gt;lchild;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        pt = pt-&gt;rchild;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4v3oksleoj30hr070myw.jpg" alt="image.png" /></p>
+<p>根据此代码，pt最后停留的位置，就是新节点应该插入的位置。实际在写代码的时候肯定不会这样简单，因为单单有pt的位置还不能插入一个节点，需要有pt的父节点和插入节点相对于父节点的路径。这里不再赘述。</p>
+<p>平衡二叉树和二叉树相比，引入了“平衡因子”这个概念，用来表示左右子树的高度之差。即：</p>
+<blockquote>
+<p>平衡因子 = 左子树高度 - 右子树高度</p>
+</blockquote>
+<pre class="highlight"><code class="c"><span class="hljs-comment">// 计算平衡因子</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">CalcBF</span><span class="hljs-params">(AVLNode node)</span>
+</span>&#123;
+	<span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;							<span class="hljs-comment">// 空节点的平衡因子为0</span>
+	&#125;
+	<span class="hljs-keyword">int</span> bf = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">if</span> (node-&gt;lchild != <span class="hljs-literal">NULL</span>) &#123;
+		bf = bf + node-&gt;lchild-&gt;<span class="hljs-built_in">height</span>;
+	&#125;
+	<span class="hljs-keyword">if</span> (node-&gt;rchild != <span class="hljs-literal">NULL</span>) &#123;
+		bf = bf - node-&gt;rchild-&gt;<span class="hljs-built_in">height</span>;
+	&#125;
+    <span class="hljs-comment">// bf = 0 + 左子树高度 - 右子树高度 = 左子树高度 - 右子树高度，这样做能尽量减少判断次数，</span>
+	<span class="hljs-keyword">return</span> bf;
+&#125;
+</code></pre>
+<p>这里没加绝对值，表示平衡因子有正有负。事实上，平衡因子的正负反映了左右子树的高低关系：为正，表示左子树高于右子树；为负，表示右子树高于左子树。</p>
+<h2 id="基本操作左旋和右旋"><a class="markdownIt-Anchor" href="#基本操作左旋和右旋"></a> 基本操作–左旋和右旋</h2>
+<p>平衡二叉树规定，任意节点的平衡因子的绝对值不能超过1（即只能有0和1两种可能）。超过1就需要进行调整。调整只针对最小不平衡子树。以下介绍调整的两种方式：左旋，右旋。</p>
+<h3 id="左旋"><a class="markdownIt-Anchor" href="#左旋"></a> 左旋</h3>
+<p>左旋是使用右子树替代根的一种做法。如图所示：</p>
+<p><img src="//tvax3.sinaimg.cn/large/006G54sDly1h4vu3353xpj30uh0fuq66.jpg" alt="image" /></p>
+<p>在代码实现时，分为以下三步：</p>
+<ol>
+<li>
+<p>使用原根的右子树代替根的位置</p>
+<p><img src="//tva4.sinaimg.cn/large/006G54sDly1h4vu4dzywcj30t30a70ug.jpg" alt="image" /></p>
+</li>
+<li>
+<p>将新根的左子树（如果存在）挂在原根的右子树上</p>
+<p><img src="//tva1.sinaimg.cn/large/006G54sDly1h4vu674v7ej30ii05awf6.jpg" alt="image" /></p>
+</li>
+<li>
+<p>将原根挂在新根的左子树上</p>
+<p><img src="//tvax4.sinaimg.cn/large/006G54sDly1h4vu6uqpfkj30pc08babe.jpg" alt="image" /></p>
+</li>
+</ol>
+<p>以上步骤不可颠倒。完成之后，即可在实现原来根的右子树替换根的同时，不破坏左子树小于根小于右子树的原则。</p>
+<p>以下是代码实现，代码中有详细的注解。</p>
+<pre class="highlight"><code class="c"><span class="hljs-comment">// 左旋</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lRotate</span><span class="hljs-params">(AVLNode &amp; node)</span>
+</span>&#123;
+	AVLNode oldroot = node;
+	AVLNode newroot = node-&gt;rchild;
+	AVLNode parent = node-&gt;parent;
+	
+	<span class="hljs-comment">// 使用newroot替代原来位置</span>
+	<span class="hljs-keyword">if</span> (parent != <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">if</span> (parent-&gt;lchild == oldroot) &#123;
+			parent-&gt;lchild = newroot;
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			parent-&gt;rchild = newroot;
+		&#125;
+	&#125;
+	newroot-&gt;parent = parent;
+	
+	<span class="hljs-comment">// 将newroot的左子树挂载到oldroot的右子树</span>
+	oldroot-&gt;rchild = newroot-&gt;lchild;
+	<span class="hljs-keyword">if</span> (newroot-&gt;lchild != <span class="hljs-literal">NULL</span>) &#123;				<span class="hljs-comment">// 一定要加以判断，否则可能会产生访问错误</span>
+		newroot-&gt;lchild-&gt;parent = oldroot;
+	&#125;
+
+	<span class="hljs-comment">// 将oldroot挂载到newroot的右子树上</span>
+	newroot-&gt;lchild = oldroot;
+	oldroot-&gt;parent = newroot;
+	<span class="hljs-comment">// 这一步是防止传进来的参数本身就是根节点的情况</span>
+	<span class="hljs-comment">// 如果传进来的参数是根节点，就修改根节点指针指向的值，因为根节点没有父节点，无法通过修改父子节点的关系进行修改。</span>
+	node = newroot;
+&#125;
+</code></pre>
+<h3 id="右旋"><a class="markdownIt-Anchor" href="#右旋"></a> 右旋</h3>
+<p>右旋和左旋类似，是使用左子树替换根节点，同时保持二叉排序树特性不变的操作。直接上代码</p>
+<pre class="highlight"><code class="c">
+<span class="hljs-comment">// 右旋，这里使用了引用类型作为参数，方便修改</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rRotate</span><span class="hljs-params">(AVLNode &amp; node)</span>
+</span>&#123;
+	AVLNode oldroot = node;
+	AVLNode newroot = node-&gt;lchild;
+	AVLNode parent = node-&gt;parent;
+	
+	<span class="hljs-comment">// 使用newroot替代原来位置</span>
+	<span class="hljs-keyword">if</span> (parent != <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">if</span> (parent-&gt;lchild == oldroot) &#123;
+			parent-&gt;lchild = newroot;
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			parent-&gt;rchild = newroot;
+		&#125;
+	&#125;
+	newroot-&gt;parent = parent;
+	
+	<span class="hljs-comment">// 将newroot的右子树挂载到oldroot的左子树</span>
+	oldroot-&gt;lchild = newroot-&gt;rchild;
+	<span class="hljs-keyword">if</span> (newroot-&gt;rchild != <span class="hljs-literal">NULL</span>) &#123;
+		newroot-&gt;rchild-&gt;parent = oldroot;
+	&#125;
+
+	<span class="hljs-comment">// 将oldroot挂载到newroot的右子树上</span>
+	newroot-&gt;rchild = oldroot;
+	oldroot-&gt;parent = newroot;
+	node = newroot;													
+&#125;
+</code></pre>
+<h2 id="四种不平衡类型"><a class="markdownIt-Anchor" href="#四种不平衡类型"></a> 四种不平衡类型</h2>
+<p>有四种可能出现的导致不平衡的情形，分别是LL，RR，LR和RL（直接使用网图，懒得画了）：</p>
+<p><img src="//tvax3.sinaimg.cn/large/006G54sDly1h4vujo9i61j30xt0d5afc.jpg" alt="image" /></p>
+<p>这四种类型是根据新添加的节点相对于最小不平衡子树的位置而定的。例如，新添加的节点相对于最小不平衡子树的根节点，在左子树的右子树里，则为LR型。</p>
+<h3 id="ll型和rr型"><a class="markdownIt-Anchor" href="#ll型和rr型"></a> LL型和RR型</h3>
+<p>LL型和RR型相对简单，只需要进行右旋和左旋即可，如图：</p>
+<p><img src="//tva4.sinaimg.cn/large/006G54sDly1h4vun9gz4ij30dl06f752.jpg" alt="image" /></p>
+<p><img src="//tva2.sinaimg.cn/large/006G54sDly1h4vux93d2mj30ai05kgmd.jpg" alt="image-20220805140239384" /></p>
+<h3 id="lr型和rl型"><a class="markdownIt-Anchor" href="#lr型和rl型"></a> LR型和RL型</h3>
+<p>这两种相对比较复杂，需要两步操作才能降低平衡因子。其核心思想是用最下面的节点，经过两次调整，替代原来的根节点，如图：</p>
+<p><img src="//tva1.sinaimg.cn/large/006G54sDly1h4vuw8fyikj30hu05twfx.jpg" alt="image" /></p>
+<p><img src="//tvax1.sinaimg.cn/large/006G54sDly1h4vuywwpbvj30hm06c3zw.jpg" alt="image" /></p>
+<h2 id="代码实现avl树的生成"><a class="markdownIt-Anchor" href="#代码实现avl树的生成"></a> 代码实现AVL树的生成</h2>
+<pre class="highlight"><code class="c"><span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta"># <span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> &#123;</span>
+	<span class="hljs-keyword">int</span> data;					<span class="hljs-comment">// 数据域</span>
+	<span class="hljs-keyword">int</span> <span class="hljs-built_in">height</span>;					<span class="hljs-comment">// 相对高度</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">parent</span>;</span>	<span class="hljs-comment">// 父节点</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">lchild</span>;</span>	<span class="hljs-comment">// 左孩子</span>
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">avlnode</span> * <span class="hljs-title">rchild</span>;</span>	<span class="hljs-comment">// 右孩子</span>
+&#125;Node, *AVLNode;
+
+<span class="hljs-comment">// 计算相对高度，这里如果递归，必须使用后序递归，为什么？</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CalcHeight</span><span class="hljs-params">(AVLNode node)</span>
+</span>&#123;
+	AVLNode pt = node;
+	<span class="hljs-keyword">if</span> (pt == <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	CalcHeight(pt-&gt;lchild);
+	CalcHeight(pt-&gt;rchild);
+	
+	<span class="hljs-keyword">int</span> l = <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">int</span> r = <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span> (node-&gt;lchild != <span class="hljs-literal">NULL</span>) &#123;
+		l = node-&gt;lchild-&gt;<span class="hljs-built_in">height</span> + <span class="hljs-number">1</span>;
+	&#125;
+	<span class="hljs-keyword">if</span> (node-&gt;rchild != <span class="hljs-literal">NULL</span>) &#123;
+		r = node-&gt;rchild-&gt;<span class="hljs-built_in">height</span> + <span class="hljs-number">1</span>;
+	&#125;
+	node-&gt;<span class="hljs-built_in">height</span> = l &gt; r ? l : r;
+&#125;
+
+<span class="hljs-comment">// 计算平衡因子</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">CalcBF</span><span class="hljs-params">(AVLNode node)</span>
+</span>&#123;
+	<span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	&#125;
+	<span class="hljs-keyword">int</span> bf = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">if</span> (node-&gt;lchild != <span class="hljs-literal">NULL</span>) &#123;
+		bf = bf + node-&gt;lchild-&gt;<span class="hljs-built_in">height</span>;
+	&#125;
+	<span class="hljs-keyword">if</span> (node-&gt;rchild != <span class="hljs-literal">NULL</span>) &#123;
+		bf = bf - node-&gt;rchild-&gt;<span class="hljs-built_in">height</span>;
+	&#125;
+	<span class="hljs-keyword">return</span> bf;
+&#125;
+
+<span class="hljs-comment">// 右旋</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rRotate</span><span class="hljs-params">(AVLNode &amp; node)</span>
+</span>&#123;
+	AVLNode oldroot = node;
+	AVLNode newroot = node-&gt;lchild;
+	AVLNode parent = node-&gt;parent;
+	
+	<span class="hljs-comment">// 使用newroot替代原来位置</span>
+	<span class="hljs-keyword">if</span> (parent != <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">if</span> (parent-&gt;lchild == oldroot) &#123;
+			parent-&gt;lchild = newroot;
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			parent-&gt;rchild = newroot;
+		&#125;
+	&#125;
+	newroot-&gt;parent = parent;
+	
+	<span class="hljs-comment">// 将newroot的右子树挂载到oldroot的左子树</span>
+	oldroot-&gt;lchild = newroot-&gt;rchild;
+	<span class="hljs-keyword">if</span> (newroot-&gt;rchild != <span class="hljs-literal">NULL</span>) &#123;
+		newroot-&gt;rchild-&gt;parent = oldroot;
+	&#125;
+
+	<span class="hljs-comment">// 将oldroot挂载到newroot的右子树上</span>
+	newroot-&gt;rchild = oldroot;
+	oldroot-&gt;parent = newroot;
+	node = newroot;													
+&#125;
+
+<span class="hljs-comment">// 左旋</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lRotate</span><span class="hljs-params">(AVLNode &amp; node)</span>
+</span>&#123;
+	AVLNode oldroot = node;
+	AVLNode newroot = node-&gt;rchild;
+	AVLNode parent = node-&gt;parent;
+	
+	<span class="hljs-comment">// 使用newroot替代原来位置</span>
+	<span class="hljs-keyword">if</span> (parent != <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">if</span> (parent-&gt;lchild == oldroot) &#123;
+			parent-&gt;lchild = newroot;
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			parent-&gt;rchild = newroot;
+		&#125;
+	&#125;
+	newroot-&gt;parent = parent;
+	
+	<span class="hljs-comment">// 将newroot的左子树挂载到oldroot的右子树</span>
+	oldroot-&gt;rchild = newroot-&gt;lchild;
+	<span class="hljs-keyword">if</span> (newroot-&gt;lchild != <span class="hljs-literal">NULL</span>) &#123;
+		newroot-&gt;lchild-&gt;parent = oldroot;
+	&#125;
+
+	<span class="hljs-comment">// 将oldroot挂载到newroot的右子树上</span>
+	newroot-&gt;lchild = oldroot;
+	oldroot-&gt;parent = newroot;
+	node = newroot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InsertNode</span><span class="hljs-params">(AVLNode &amp; AVLTree, <span class="hljs-keyword">int</span> val)</span>
+</span>&#123;
+	AVLNode pnew = (AVLNode)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Node));
+	pnew-&gt;data = val;
+	pnew-&gt;lchild = pnew-&gt;rchild = pnew-&gt;parent = <span class="hljs-literal">NULL</span>;
+	<span class="hljs-comment">// 如果是空树，将该节点设为根节点，结束</span>
+	<span class="hljs-keyword">if</span> (AVLTree == <span class="hljs-literal">NULL</span>) &#123;
+		AVLTree = pnew;
+		<span class="hljs-keyword">return</span>;
+	&#125;
+
+	<span class="hljs-comment">// 非空树，先寻找插入的位置</span>
+	AVLNode pt = AVLTree;
+	AVLNode pp;
+	<span class="hljs-keyword">int</span> way = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">while</span>(pt != <span class="hljs-literal">NULL</span>) &#123;
+		pp = pt;
+		<span class="hljs-keyword">if</span> (pt-&gt;data &gt; val) &#123;
+			way = <span class="hljs-number">0</span>;
+			pt = pt-&gt;lchild;
+		&#125; <span class="hljs-keyword">else</span> &#123;
+			way = <span class="hljs-number">1</span>;
+			pt = pt-&gt;rchild;
+		&#125;
+	&#125;
+	pnew-&gt;parent = pp;
+	<span class="hljs-keyword">if</span> (way == <span class="hljs-number">0</span>) &#123;
+		pp-&gt;lchild = pnew;
+	&#125; <span class="hljs-keyword">else</span> &#123;
+		pp-&gt;rchild = pnew;
+	&#125;
+	CalcHeight(AVLTree);
+	
+	<span class="hljs-comment">// 尝试找到最小的不平衡子树</span>
+	pt = pnew;
+	<span class="hljs-keyword">while</span> (pt-&gt;parent != <span class="hljs-literal">NULL</span>) &#123;
+		pt = pt-&gt;parent;
+		<span class="hljs-keyword">if</span> (CalcBF(pt) == <span class="hljs-number">2</span>) &#123;
+			<span class="hljs-keyword">if</span> (CalcBF(pt-&gt;lchild) == <span class="hljs-number">-1</span>) &#123;
+				lRotate(pt-&gt;lchild);
+			&#125;
+			<span class="hljs-keyword">if</span> (pt == AVLTree) &#123;
+				rRotate(AVLTree);
+			&#125; <span class="hljs-keyword">else</span> &#123;
+				rRotate(pt);
+			&#125;
+			<span class="hljs-keyword">break</span>;
+		&#125;
+		<span class="hljs-keyword">if</span> (CalcBF(pt) == <span class="hljs-number">-2</span>) &#123;
+			<span class="hljs-keyword">if</span> (CalcBF(pt-&gt;rchild) == <span class="hljs-number">1</span>) &#123;
+				rRotate(pt-&gt;rchild);
+			&#125;
+			<span class="hljs-keyword">if</span> (pt == AVLTree) &#123;
+				lRotate(AVLTree);
+			&#125; <span class="hljs-keyword">else</span> &#123;
+				lRotate(pt);
+			&#125;
+			<span class="hljs-keyword">break</span>;
+		&#125;
+	&#125;
+	CalcHeight(AVLTree);
+
+	<span class="hljs-keyword">return</span>;
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PrintTree</span><span class="hljs-params">(AVLNode AVLTree)</span>
+</span>&#123;
+	AVLNode pt = AVLTree;
+	<span class="hljs-keyword">if</span> (pt == <span class="hljs-literal">NULL</span>) &#123;
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	PrintTree(pt-&gt;lchild);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d %d\n"</span>, pt-&gt;data, pt-&gt;<span class="hljs-built_in">height</span>);
+	PrintTree(pt-&gt;rchild);
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>&#123;
+	AVLNode Tree = <span class="hljs-literal">NULL</span>;
+	<span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">int</span> t = <span class="hljs-number">0</span>;
+	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;n);
+	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;n; i++) &#123;
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;t);
+		InsertNode(Tree, t);
+	&#125;
+	PrintTree(Tree);
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<p>运行结果（上图为程序运行结果，下图为根据输入序列得到的二叉平衡树示意图）：</p>
+<p><img src="C:%5CUsers%5CAdmin%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220805141338110.png" alt="image-20220805141338110" /></p>
+<p><img src="http://tva1.sinaimg.cn/large/006G54sDly1h4vv2x9pdpj30ih0bzmy4.jpg" alt="image.png" /></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="/images/donate/alipay.jpg"></li>
+                <li class="wechat-code"><img src="/images/donate/wechatpay.jpg"></li>
+              </ul>
             </div>
           </div>
         </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
       </article>
-    </div>
-  </div>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2022/07/27/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%A2%AB%E9%AA%97%E7%BB%8F%E5%8E%86/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                记一次被骗经历</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
+    <div id="waline"></div>
+    <script>
+        Waline({
+              el: '#waline',
+              serverURL: 'https://waline-test-e4243niq8-mythe51.vercel.app/',
+              pageSize: '10',
+              lang: 'zh-CN',
+              requiredFields: ['nick','mail'],
+              placeholder: '支持Markdown语法，按 Ctrl+Enter 发送。',
+              visitor: 'true',
+              emoji: [
+                  'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba',
+                  'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
+                  'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo',
+              ],
+              avatar: 'mp',
+            });
+    </script>
+
+
+      
+    </main><!-- #main -->
+  </div><!-- #primary -->
 </div>
+
+
 
     </div>    
     <div class="ins-search">
