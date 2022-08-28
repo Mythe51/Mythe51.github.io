@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">一个红包引发的惨案 | 狐の小屋</title>
+  <title itemprop="name">作息时间表 | 狐の小屋</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -350,168 +350,1022 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
           <header class="entry-header">
-            <h1 class="entry-title">一个红包引发的惨案</h1>
-            <p class="entry-census">&nbsp;·&nbsp;2022-8-15&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
+            <h1 class="entry-title">作息时间表</h1>
+            <p class="entry-census">&nbsp;·&nbsp;2022-8-28&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
 
             <hr>
           </header>
         
         <div class="entry-content">
-          <h2 id="一个红包引发的惨案"><a class="markdownIt-Anchor" href="#一个红包引发的惨案"></a> 一个红包引发的惨案</h2>
-<p>故事起源于隔壁一个吹水群的某天中午，可能是想增加点乐趣，群主发了两个红包。恰好是一笔画红包。而一笔画红包涉及到数据结构图论的相关知识，所以在此进行总结，并贴出相关的代码。</p>
-<h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
-<h4 id="一笔画红包"><a class="markdownIt-Anchor" href="#一笔画红包"></a> 一笔画红包</h4>
-<p>一笔画红包是QQ红包的一种形式。挑战者需要完成一笔画挑战之后才能领取红包</p>
-<h4 id="欧拉图"><a class="markdownIt-Anchor" href="#欧拉图"></a> 欧拉图</h4>
-<p>欧拉图是一种特殊的图，定义如下：</p>
-<blockquote>
-<p>欧拉图是指通过图（无向图或有向图）中所有边且每边仅通过一次通路，相应的回路称为欧拉回路。具有欧拉回路的图称为欧拉图（Euler Graph），具有欧拉通路而无欧拉回路的图称为半欧拉图。</p>
-</blockquote>
-<p>对于欧拉图，有以下几条性质：</p>
-<ol>
-<li>
-<p>一个无向图存在欧拉回路，当且仅当该图有 0 个或 2 个奇数度数的顶点，且该图是连通图。</p>
-</li>
-<li>
-<p>一个无向图存在欧拉回路，当且仅当该图所有顶点度数都为偶数，且该图是连通图。</p>
-</li>
-<li>
-<p>一个有向图存在欧拉回路，所有顶点的入度等于出度且该图是连通图。</p>
-</li>
-<li>
-<p>一个有向图存在欧拉回路：图连通，所有节点的出度等于入度；或者除两个节点以外的其余节点的入度和出度都相等，且这两个节点一个满足出度 - 入度 ==1，另一个满足入度 – 出度 ==1。</p>
-</li>
-</ol>
-<p>对于QQ红包的场景，明显其为有向图。如果我们能获取到每条边的信息，就能使用深度优先算法求解欧拉路径。理论存在，实践开始</p>
-<h3 id="实践"><a class="markdownIt-Anchor" href="#实践"></a> 实践</h3>
-<h4 id="获取边的信息"><a class="markdownIt-Anchor" href="#获取边的信息"></a> 获取边的信息</h4>
-<p>获取边的信息很简单，直接手机代理链接电脑上的fiddler，开启抓包即可。</p>
-<p><img src="http://tva1.sinaimg.cn/large/006G54sDgy1h57kj6yf1aj315c0mtk38.jpg" alt="image.png" /></p>
-<p>右下角就是TX返回的包体了。connects数组包含了所有的边，而vertexes保存了所有的顶点。</p>
-<h4 id="对包体进行处理"><a class="markdownIt-Anchor" href="#对包体进行处理"></a> 对包体进行处理</h4>
-<p>这里使用了python对包进行处理，将包体的字符串变成我们熟悉的邻接矩阵：</p>
-<pre class="highlight"><code class="python"><span class="hljs-comment"># 构建邻接矩阵</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PreProcess</span><span class="hljs-params">(package)</span>:</span>
-    <span class="hljs-keyword">global</span> versum
-    package = package.replace(<span class="hljs-string">"\\"</span>, <span class="hljs-string">""</span>)
-    package = package.replace(<span class="hljs-string">"\"["</span>, <span class="hljs-string">"["</span>)
-    package = package.replace(<span class="hljs-string">"]\""</span>, <span class="hljs-string">"]"</span>)
-    package = json.loads(package)[<span class="hljs-string">'data'</span>]		<span class="hljs-comment"># 到这里为止是字符串的预处理</span>
-    con = package[<span class="hljs-string">'connects'</span>]
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> con:
-        sx = (i[<span class="hljs-string">'x1'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        sy = (i[<span class="hljs-string">'y1'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        ex = (i[<span class="hljs-string">'x2'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        ey = (i[<span class="hljs-string">'y2'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>		<span class="hljs-comment"># 根据像素计算顶点序号</span>
-        s = int(sy * <span class="hljs-number">5</span> + sx)
-        e = int(ey * <span class="hljs-number">5</span> + ex)
-        versum = versum + <span class="hljs-number">1</span>				<span class="hljs-comment"># 统计边的条数</span>
-        m[s][e] = m[s][e] + <span class="hljs-number">1</span>			<span class="hljs-comment"># 设置邻接矩阵</span>
+          <html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="ProgId" content="Excel.Sheet">
+<meta name="Generator" content="Aspose.Cell 18.4">
+<link rel="File-List" href="082822082215_files/filelist.xml">
+<link rel="Edit-Time-Data" href="082822082215_files/editdata.mso">
+<link rel="OLE-Object-Data" href="082822082215_files/oledata.mso">
+<style>
+<!--table
+ {mso-displayed-decimal-separator:"\.";
+ mso-displayed-thousand-separator:"\,";}
+@page
+ {
+ mso-header-data:"";
+ mso-footer-data:"";
+ margin:0.75in 0.7in 0.75in 0.7in;
+ mso-header-margin:0.3in;
+ mso-footer-margin:0.3in;
+ mso-page-orientation:Portrait;
+ }
+tr
+ {mso-height-source:auto;
+ mso-ruby-visibility:none;}
+col
+ {mso-width-source:auto;
+ mso-ruby-visibility:none;}
+br
+ {mso-data-placement:same-cell;}
+ruby
+ {ruby-align:left;}
+.style0
+ {
+ mso-number-format:General;
+ text-align:general;
+ vertical-align:bottom;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border:none;
+ mso-protection:locked visible;
+ mso-style-name:Normal;
+ mso-style-id:0;}
+.font0
+ {
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif"; }
+.font1
+ {
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif"; }
+.font2
+ {
+ color:#000000;
+ font-size:9pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","monospace"; }
+.font3
+ {
+ color:#000000;
+ font-size:16pt;
+ font-weight:700;
+ font-style:normal;
+ font-family:"等线","monospace"; }
+.font4
+ {
+ color:#000000;
+ font-size:9pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","monospace"; }
+td
+ {mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:general;
+ vertical-align:bottom;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border:none;
+ mso-protection:locked visible;
+ mso-ignore:padding;}
+.style0
+ {
+ text-align:general;
+ vertical-align:bottom;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Normal";
+ }
+.style1
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style2
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style3
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style4
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style5
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style6
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style7
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style8
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style9
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style10
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style11
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style12
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style13
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.style14
+ {
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ }
+.x15
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:general;
+ vertical-align:bottom;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ }
+.style16
+ {
+ mso-number-format:"0%";
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Percent";
+ }
+.style17
+ {
+ mso-number-format:"_ \0022¥\0022* \#\,\#\#0\.00_ \;_ \0022¥\0022* -\#\,\#\#0\.00_ \;_ \0022¥\0022* \0022-\0022??_ \;_ \@_ ";
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Currency";
+ }
+.style18
+ {
+ mso-number-format:"_ \0022¥\0022* \#\,\#\#0_ \;_ \0022¥\0022* -\#\,\#\#0_ \;_ \0022¥\0022* \0022-\0022_ \;_ \@_ ";
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Currency [0]";
+ }
+.style19
+ {
+ mso-number-format:"_ * \#\,\#\#0\.00_ \;_ * -\#\,\#\#0\.00_ \;_ * \0022-\0022??_ \;_ \@_ ";
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Comma";
+ }
+.style20
+ {
+ mso-number-format:"_ * \#\,\#\#0_ \;_ * -\#\,\#\#0_ \;_ * \0022-\0022_ \;_ \@_ ";
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:10pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"Arial","sans-serif";
+ mso-protection:locked visible;
+ mso-style-name:"Comma [0]";
+ }
+.x21
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ }
+.x22
+ {
+ mso-style-parent:style0;
+ mso-number-format:"h\:mm";
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ }
+.x23
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:general;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ }
+.x24
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:#A6A6A6;
+ mso-pattern:auto none;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ mso-protection:locked visible;
+ }
+.x25
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:16pt;
+ font-weight:700;
+ font-style:normal;
+ font-family:"等线","monospace";
+ mso-protection:locked visible;
+ }
+.x26
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:16pt;
+ font-weight:700;
+ font-style:normal;
+ font-family:"等线","monospace";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x27
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x28
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x29
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:normal;word-wrap:break-word;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x30
+ {
+ mso-style-parent:style0;
+ mso-number-format:"h\:mm";
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x31
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:none;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x32
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:none;
+ border-bottom:1px solid windowtext;
+ border-left:none;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x33
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:none;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x34
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:normal;word-wrap:break-word;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:none;
+ border-bottom:1px solid windowtext;
+ border-left:1px solid windowtext;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x35
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:normal;word-wrap:break-word;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:none;
+ border-bottom:1px solid windowtext;
+ border-left:none;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x36
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:center;
+ vertical-align:middle;
+ white-space:normal;word-wrap:break-word;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:11pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","sans-serif";
+ border-top:1px solid windowtext;
+ border-right:1px solid windowtext;
+ border-bottom:1px solid windowtext;
+ border-left:none;
+ mso-diagonal-down:none;
+ mso-diagonal-up:none;
+ mso-protection:locked visible;
+ }
+.x37
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:left;
+ vertical-align:top;
+ white-space:normal;word-wrap:break-word;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:9pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","monospace";
+ mso-protection:locked visible;
+ }
+.x38
+ {
+ mso-style-parent:style0;
+ mso-number-format:General;
+ text-align:left;
+ vertical-align:top;
+ white-space:nowrap;
+ background:white;
+ mso-pattern:auto;
+ color:#000000;
+ font-size:9pt;
+ font-weight:400;
+ font-style:normal;
+ font-family:"等线","monospace";
+ mso-protection:locked visible;
+ }
+-->
+</style>
+</head>
+<body link='blue' vlink='purple' class='x21'>
+<table border='0' cellpadding='0' cellspacing='0' width='645' style='border-collapse: 
+ collapse;table-layout:fixed;width:483pt'>
+ <col class='x21' width='37' style='mso-width-source:userset;width:27.75pt'>
+ <col class='x21' width='101' style='mso-width-source:userset;width:75.75pt'>
+ <col class='x21' width='125' style='mso-width-source:userset;width:93.75pt'>
+ <col class='x21' width='45' style='mso-width-source:userset;width:33.75pt'>
+ <col class='x21' width='29' style='mso-width-source:userset;width:21.75pt'>
+ <col class='x21' width='37' style='mso-width-source:userset;width:27.75pt'>
+ <col class='x21' width='101' style='mso-width-source:userset;width:75.75pt'>
+ <col class='x21' width='125' style='mso-width-source:userset;width:93.75pt'>
+ <col class='x21' width='45' style='mso-width-source:userset;width:33.75pt'>
+ <tr height='40' class='x25' style='mso-height-source:userset;height:30pt' id='r0'>
+<td colspan='9' height='38' class='x26' width='645' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:28.5pt;'>作息时间表（9-12月）</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r1'>
+<td colspan='4' height='20' class='x27' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:15.6pt;'>通常时段（非周六）作息时间</td>
+<td rowspan='27' height='614' class='x24' style='height:460.95pt;'></td>
+<td colspan='4' class='x27' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>周六作息时间</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r2'>
+<td class='x28'>时段</td>
+<td class='x28'>时间</td>
+<td class='x28'>内容</td>
+<td class='x28'>时长</td>
+<td class='x28'>时段</td>
+<td class='x28'>时间</td>
+<td class='x28'>内容</td>
+<td class='x28'>时长</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r3'>
+<td rowspan='6' height='134' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:101.1pt;'>早<br>间</td>
+<td class='x30' x:num="0.25">6:00</td>
+<td class='x28'>起床</td>
+<td class='x28'>-</td>
+<td rowspan='6' height='134' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:101.1pt;'>上<br>午</td>
+<td class='x30'>06:30-07:00</td>
+<td class='x28'>早餐</td>
+<td class='x28'>30</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r4'>
+<td class='x28'>06:00-06:20</td>
+<td class='x28'>洗漱，打水等</td>
+<td class='x28'>20</td>
+<td class='x28'>07:00-07:45</td>
+<td class='x28'>第一节</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r5'>
+<td class='x28'>06:30-06:50</td>
+<td class='x28'>运动（早间）</td>
+<td class='x28'>20</td>
+<td class='x28'>07:55-08:10</td>
+<td class='x28'>第二节</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r6'>
+<td class='x30'>06:50-07:20</td>
+<td class='x28'>早读</td>
+<td class='x28'>30</td>
+<td class='x30'>08:50-09:35</td>
+<td class='x28'>第三节</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r7'>
+<td class='x28'>07:30-08:15</td>
+<td class='x28'>第一节</td>
+<td class='x28'>45</td>
+<td class='x28'>09:45-10:30</td>
+<td class='x28'>第四节</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r8'>
+<td class='x28'>08:15-08:35</td>
+<td class='x28'>早餐</td>
+<td class='x28'>20</td>
+<td class='x28'>10:40-12:00</td>
+<td class='x28'>自习</td>
+<td class='x28'>80</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r9'>
+<td rowspan='4' height='89' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:66.9pt;'>上<br>午</td>
+<td class='x28'>08:35-09:20</td>
+<td class='x28'>第二节</td>
+<td class='x28'>45</td>
+<td colspan='4' class='x34' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'></td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r10'>
+<td class='x28'>09:35-10:20</td>
+<td class='x28'>第三节</td>
+<td class='x28'>45</td>
+<td class='x28'>下午</td>
+<td colspan='3' class='x27' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>下午休息</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r11'>
+<td class='x28'>10:30-11:15</td>
+<td class='x28'>第四节</td>
+<td class='x28'>45</td>
+<td colspan='4' class='x31' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'></td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r12'>
+<td class='x28'>11:25-12:10</td>
+<td class='x28'>自习</td>
+<td class='x28'>45</td>
+<td rowspan='5' height='112' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:84pt;'>晚<br>间</td>
+<td class='x28'>18:00-20:00</td>
+<td class='x28'>***</td>
+<td class='x28'>120</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r13'>
+<td colspan='4' height='20' class='x31' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:15.6pt;'></td>
+<td class='x28'>20:00-21:00</td>
+<td class='x28'>自习1</td>
+<td class='x28'>60</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r14'>
+<td class='x28'>午间</td>
+<td class='x28'>12:10-14:00</td>
+<td class='x28'>吃饭，午休</td>
+<td class='x28'>110</td>
+<td class='x28'>21:00-22:00</td>
+<td class='x28'>自习2</td>
+<td class='x28'>60</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r15'>
+<td colspan='4' height='20' class='x31' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:15.6pt;'></td>
+<td class='x28'>22:00-22:45</td>
+<td class='x28'>洗漱，夜宵等</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r16'>
+<td rowspan='5' height='112' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:84pt;'>下<br>午</td>
+<td class='x30' x:num="0.58333333333333337">14:00</td>
+<td class='x28'>起床</td>
+<td class='x28'>-</td>
+<td class='x30' x:num="0.94791666666666663">22:45</td>
+<td class='x28'>就寝</td>
+<td class='x28'>-</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r17'>
+<td class='x28'>14:20-15:05</td>
+<td class='x28'>第五节</td>
+<td class='x28'>45</td>
+<td class='x23'></td>
+<td class='x21'></td>
+<td class='x21'></td>
+<td class='x21'></td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r18'>
+<td class='x28'>15:15-16:00</td>
+<td class='x28'>第六节</td>
+<td class='x28'>45</td>
+<td colspan='4' rowspan='7' height='159' class='x37' style='height:119.7pt;'>（这里有内容被删掉了233）</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r19'>
+<td class='x28'>16:20-17:05</td>
+<td class='x28'>第七节</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r20'>
+<td class='x28'>17:15-18:00</td>
+<td class='x28'>自习</td>
+<td class='x28'>45</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r21'>
+<td rowspan='7' height='157' class='x29' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:118.2pt;'>晚<br>间</td>
+<td class='x28'>18:00-18:50</td>
+<td class='x28'>晚饭</td>
+<td class='x28'>50</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r22'>
+<td class='x28'>18:50-19:40</td>
+<td class='x28'>自习1</td>
+<td rowspan='2' height='43' class='x27' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:32.7pt;'>100</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r23'>
+<td class='x28'>19:40-20.30</td>
+<td class='x28'>自习2</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r24'>
+<td class='x28'>20:40-21:30</td>
+<td class='x28'>自习3</td>
+<td rowspan='2' height='43' class='x27' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;height:32.7pt;'>100</td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r25'>
+<td class='x28'>21:30-22:20</td>
+<td class='x28'>自习4</td>
+<td class='x23'></td>
+<td class='x23'></td>
+<td class='x23'></td>
+<td class='x23'></td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r26'>
+<td class='x28'>22:20-22:45</td>
+<td class='x28'>洗漱，夜宵等</td>
+<td class='x28'>25</td>
+<td class='x23'></td>
+<td class='x21'></td>
+<td class='x21'></td>
+<td class='x21'></td>
+ </tr>
+ <tr height='22' style='mso-height-source:userset;height:17.1pt' id='r27'>
+<td class='x30' x:num="0.94791666666666663">22:45</td>
+<td class='x28'>就寝</td>
+<td class='x28'>-</td>
+<td class='x23'></td>
+<td class='x22'></td>
+<td class='x21'></td>
+<td class='x21'></td>
+ </tr>
+<![if supportMisalignedColumns]>
+ <tr height='0' style='display:none'>
+  <td width='37' style='width:27.75pt'></td>
+  <td width='101' style='width:75.75pt'></td>
+  <td width='125' style='width:93.75pt'></td>
+  <td width='45' style='width:33.75pt'></td>
+  <td width='29' style='width:21.75pt'></td>
+  <td width='37' style='width:27.75pt'></td>
+  <td width='101' style='width:75.75pt'></td>
+  <td width='125' style='width:93.75pt'></td>
+  <td width='45' style='width:33.75pt'></td>
+ </tr>
+ <![endif]>
+</table>
+<script language = 'javascript' type='text/javascript'>
+ function ChangeRowspanHiddenData()
+ {
+   var node;
+   var params=["r1","r3","r9","r12","r16","r18","r21","r22","r24"];
+   for (var i = 0;i < params.length; i++)
+   {
+       node = document.getElementById(params[i]);
+       if (node != null)
+       {
+           node.style.display = "";
+       }
+   }
+ }
+ ChangeRowspanHiddenData();
+</script>
+<pre><code>        &lt;/body&gt;
 </code></pre>
-<h4 id="计算起始顶点和终止顶点"><a class="markdownIt-Anchor" href="#计算起始顶点和终止顶点"></a> 计算起始顶点和终止顶点</h4>
-<p>根据欧拉图的性质，对于任意一个合法的欧拉图，只可能出现两种情况：</p>
-<ol>
-<li>有2个奇数度的顶点，此时这两个奇数度的顶点分别为起点和终点</li>
-<li>没有奇数度的顶点，此时任意一个顶点都能作为起点和终点</li>
-</ol>
-<p>根据性质，写出代码即可</p>
-<h4 id="求解欧拉路径"><a class="markdownIt-Anchor" href="#求解欧拉路径"></a> 求解欧拉路径</h4>
-<p>这里使用深度优先算法。欧拉图可能有多解，选择其中的一个解即可：</p>
-<pre class="highlight"><code class="python"><span class="hljs-comment"># now 的初始调用值为上面确定的起点</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS</span><span class="hljs-params">(now)</span>:</span>
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>):
-        <span class="hljs-keyword">if</span> m[now][i] == <span class="hljs-number">1</span>:
-            m[now][i] = m[now][i] - <span class="hljs-number">1</span>
-            DFS(i)
-    path.append(now + <span class="hljs-number">1</span>)
-</code></pre>
-<h4 id="完整代码"><a class="markdownIt-Anchor" href="#完整代码"></a> 完整代码</h4>
-<p>下面是完整代码：</p>
-<pre class="highlight"><code class="python"><span class="hljs-keyword">import</span> json
-
-m = [[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>)] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>)]
-s = <span class="hljs-number">0</span>
-e = <span class="hljs-number">0</span>
-versum = <span class="hljs-number">0</span>
-path = []
-
-<span class="hljs-comment"># 构建邻接矩阵</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PreProcess</span><span class="hljs-params">(package)</span>:</span>
-    <span class="hljs-keyword">global</span> versum
-    package = package.replace(<span class="hljs-string">"\\"</span>, <span class="hljs-string">""</span>)
-    package = package.replace(<span class="hljs-string">"\"["</span>, <span class="hljs-string">"["</span>)
-    package = package.replace(<span class="hljs-string">"]\""</span>, <span class="hljs-string">"]"</span>)
-    print(package)
-    package = json.loads(package)[<span class="hljs-string">'data'</span>]
-    print(package[<span class="hljs-string">"vertexes"</span>])
-    con = package[<span class="hljs-string">'connects'</span>]
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> con:
-        sx = (i[<span class="hljs-string">'x1'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        sy = (i[<span class="hljs-string">'y1'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        ex = (i[<span class="hljs-string">'x2'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        ey = (i[<span class="hljs-string">'y2'</span>] - <span class="hljs-number">75</span>) / <span class="hljs-number">150</span>
-        s = int(sy * <span class="hljs-number">5</span> + sx)
-        e = int(ey * <span class="hljs-number">5</span> + ex)
-        versum = versum + <span class="hljs-number">1</span>
-        m[s][e] = m[s][e] + <span class="hljs-number">1</span>
-
-
-<span class="hljs-comment"># 判断起始和终止点</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">GetStartAndEnd</span><span class="hljs-params">()</span>:</span>
-    <span class="hljs-keyword">global</span> s, e
-    du = []
-    se = []
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>):
-        t = sum(m[i])
-        t = t + sum([m[j][i] <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>)])
-        du.append(t)
-    print(<span class="hljs-string">"顶点的度："</span>, du)
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> du:
-        <span class="hljs-keyword">if</span> i % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
-            se.append(du.index(i))
-    <span class="hljs-keyword">if</span> len(se) == <span class="hljs-number">0</span>:
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> du:
-            <span class="hljs-keyword">if</span> <span class="hljs-number">1</span> != <span class="hljs-number">0</span>:
-                se.append(du.index(i))
-                se.append(du.index(i))
-                <span class="hljs-keyword">break</span>
-    s = se[<span class="hljs-number">0</span>]
-    e = se[<span class="hljs-number">1</span>]
-
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">DFS</span><span class="hljs-params">(now)</span>:</span>
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>):
-        <span class="hljs-keyword">if</span> m[now][i] == <span class="hljs-number">1</span>:
-            m[now][i] = m[now][i] - <span class="hljs-number">1</span>
-            DFS(i)
-    path.append(now + <span class="hljs-number">1</span>)
-    <span class="hljs-keyword">pass</span>
-
-
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
-    package = input(<span class="hljs-string">"input package: \n"</span>)
-
-    PreProcess(package)
-
-    print(<span class="hljs-string">"邻接矩阵："</span>)
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">25</span>):
-        print(m[i])
-
-    GetStartAndEnd()
-    print(<span class="hljs-string">"以下为分析结果：\n"</span>)
-    print(<span class="hljs-string">'起点：'</span>, s + <span class="hljs-number">1</span>, <span class="hljs-string">'终点：'</span>, e + <span class="hljs-number">1</span>, <span class="hljs-string">'边数：'</span>, versum)
-    DFS(s)
-    path.reverse()
-    print(<span class="hljs-string">"参考路径："</span>)
-    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(path)):
-        print(path[i], end=<span class="hljs-string">' '</span>)
-        <span class="hljs-keyword">if</span> (i+<span class="hljs-number">1</span>) % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:
-            print()
-
-</code></pre>
-<p>运行截图：</p>
-<p><img src="//tva2.sinaimg.cn/large/006G54sDgy1h57kupkje4j31fu0u0hb1.jpg" alt="1" /></p>
-<p>希望能通过这个小小的例子，体会欧拉图在生活中的应用。</p>
+</html>
 
         </div>
         <!-- .entry-content -->
@@ -540,28 +1394,11 @@ path = []
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2022/08/18/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                插入排序</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
         
           
-            <div class="post-nepre half next">
+            <div class="post-nepre full next">
           
-            <a href="/2022/08/04/%E6%9E%84%E5%BB%BA%E4%B8%80%E6%A3%B5%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="next">
+            <a href="/2022/08/26/OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E8%A1%A8%E6%A0%BC%E8%AE%B0%E5%BF%86/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
               </div>
@@ -569,7 +1406,7 @@ path = []
               Next Post</span>
               <div class="info">
                 <h3>
-                构建一棵平衡二叉树</h3>
+                OSI七层模型表格记忆</h3>
                 <hr>
               </div>
             </a>
